@@ -17,6 +17,7 @@ void reset(void);
 int current_layer_number = 0;
 // this gets reset every cycle
 int *current_layer;
+int *previous_layer;
 
 #define ROW_COUNT 4
 #define COL_COUNT 11
@@ -78,7 +79,7 @@ int last_presses[KEY_COUNT];
 // per_cycle void function callback
 #include "layout.h"
 
-
+
 // Matrix scanning logic
 
 void record(int col, int row) {
@@ -216,12 +217,31 @@ void clear_keys() {
   };
 };
 
+void set_leds() {
+  if (current_layer != previous_layer) {
+    previous_layer = current_layer;
+    if (current_layer == layers[1]) {
+      DDRB |= (1 << DDB1);
+      PORTB |= (1 << PB1);      // on Led right
+      DDRB &= ~(1 << DDB3);     // dim Led left
+    } else if (current_layer == layers[2]) {
+      DDRB |= (1 << DDB3);
+      PORTB |= (1 << PB3);      // on Led Left
+      DDRB &= ~(1 << DDB1);     // dim Led right
+    } else {
+      DDRB &= ~(1 << DDB1);     // dim Led right
+      DDRB &= ~(1 << DDB3);     // dim Led left
+    }
+  }
+}
+
 int main() {
   init();
   while(1) {
     clear_keys();
     debounce(DEBOUNCE_PASSES);
     pre_invoke_functions();
+    set_leds();
     calculate_presses();
     usb_keyboard_send();
   };
