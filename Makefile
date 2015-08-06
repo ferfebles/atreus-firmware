@@ -14,9 +14,9 @@ endif
 
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Darwin)
-  USB ?= /dev/tty.usbmodem1411
+  USB ?= `ls /dev/tty.usb*`
 else
-  USB ?= /dev/ttyACM0
+  USB ?= COM3
 endif
 
 # Build your keyboard layout
