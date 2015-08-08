@@ -4,3 +4,4 @@ atreus.hex
 layout.h*
 layout.html
 /*.json.html
+*.DS_Store
