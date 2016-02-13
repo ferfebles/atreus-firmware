@@ -16,8 +16,8 @@ void reset(void);
 // set this for layer changes that need to persist beyond one cycle
 int current_layer_number = 0;
 // this gets reset every cycle
-int *current_layer;
-int *previous_layer;
+unsigned int *current_layer;
+unsigned int *previous_layer;
 
 #define ROW_COUNT 4
 #define COL_COUNT 11
@@ -114,7 +114,7 @@ void scan_rows() {
   };
 };
 
-
+
 // Cycle functions
 
 void debounce(int passes_remaining) {
@@ -137,7 +137,7 @@ void debounce(int passes_remaining) {
 
 void pre_invoke_functions() {
   for(int i = 0; i < pressed_count; i++) {
-    int keycode = current_layer[presses[i]];
+    unsigned int keycode = current_layer[presses[i]];
     if(keycode >= MIN_PRE_FUNCTION && keycode <= MAX_PRE_FUNCTION) {
       (layer_functions[keycode - MIN_PRE_FUNCTION])();
     }
@@ -148,7 +148,7 @@ void pre_invoke_functions() {
 void calculate_presses() {
   int usb_presses = 0;
   for(int i = 0; i < pressed_count; i++) {
-    int keycode = current_layer[presses[i]];
+    unsigned int keycode = current_layer[presses[i]];
     if(keycode >= MIN_FUNCTION && keycode <= MAX_FUNCTION) {
       // regular layout functions
       (layer_functions[keycode - MIN_FUNCTION])();
@@ -184,7 +184,7 @@ void calculate_presses() {
   };
 };
 
-
+
 // Top level stuff
 
 void init() {

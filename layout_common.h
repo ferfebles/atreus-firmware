@@ -1,4 +1,5 @@
 int fn_decay = 0;
+unsigned int fn_doubleclick_decay = 0;
 
 void activate_fn() {
   fn_decay = 20;
@@ -33,10 +34,17 @@ void per_cycle() {
     current_layer = layers[1];
     fn_decay--;
   } else if(fn_decay == 1) {
+    if(fn_doubleclick_decay > 1) {
+      layer_to_jump = 2;
+    }
     current_layer_number = layer_to_jump;
+    fn_doubleclick_decay = 10000; // Test doubleckick time
     fn_decay--;
   } else {
     layer_to_jump = 0;
     fn_decay = 0;
+    if(fn_doubleclick_decay>1) {
+      fn_doubleclick_decay--;
+    }
   }
 };
