@@ -2,7 +2,7 @@ int fn_decay = 0;
 unsigned int fn_doubleclick_decay = 0;
 
 void activate_fn() {
-  fn_decay = 20;
+  fn_decay = 15;
 };
 
 int layer_to_jump = 0;
@@ -38,7 +38,7 @@ void per_cycle() {
       layer_to_jump = 2;
     }
     current_layer_number = layer_to_jump;
-    fn_doubleclick_decay = 10000; // Test doubleckick time
+    fn_doubleclick_decay = 40; // Testing doubleckick time
     fn_decay--;
   } else {
     layer_to_jump = 0;
